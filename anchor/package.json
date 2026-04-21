@@ -1,0 +1,17 @@
+{
+  "name": "nusacow-anchor-workspace",
+  "private": true,
+  "scripts": {
+    "test": "anchor test",
+    "build": "anchor build"
+  },
+  "devDependencies": {
+    "@coral-xyz/anchor": "^0.30.1",
+    "@types/chai": "^5.2.1",
+    "@types/mocha": "^10.0.10",
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0",
+    "ts-mocha": "^10.1.0",
+    "typescript": "^5.8.3"
+  }
+}
