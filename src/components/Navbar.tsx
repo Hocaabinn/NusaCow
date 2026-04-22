@@ -17,13 +17,17 @@ export default function Navbar() {
       </div>
 
       <div className="hidden md:flex items-center bg-white/50 backdrop-blur-md px-2 py-1 rounded-full border border-black/5 gap-1">
-        {['Home', 'protocol', 'docs'].map((item, i) => (
+        {[
+          { label: 'Home', href: '#home' },
+          { label: 'Docs', href: '#docs' },
+          { label: 'Explore Vaults', href: '#explore-vaults' },
+        ].map((item, i) => (
           <a
-            key={item}
-            href={`#${item.toLowerCase()}`}
+            key={item.label}
+            href={item.href}
             className={`px-6 py-2 rounded-full text-sm font-medium transition-all hover:bg-white overflow-hidden relative group`}
           >
-            <span className="relative z-10">{item}</span>
+            <span className="relative z-10">{item.label}</span>
             <span className="inline-block ml-1 text-[10px] opacity-40 group-hover:translate-x-1 transition-transform">0{i+1}</span>
           </a>
         ))}
