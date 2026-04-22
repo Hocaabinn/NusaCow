@@ -17,7 +17,7 @@ export default function Navbar() {
       </div>
 
       <div className="hidden md:flex items-center bg-white/50 backdrop-blur-md px-2 py-1 rounded-full border border-black/5 gap-1">
-        {['Home', 'Service', 'Technology'].map((item, i) => (
+        {['Home', 'protocol', 'docs'].map((item, i) => (
           <a
             key={item}
             href={`#${item.toLowerCase()}`}
@@ -30,7 +30,7 @@ export default function Navbar() {
       </div>
 
       <button className="bg-olive text-white px-8 py-3 rounded-full text-sm font-medium hover:bg-moss transition-colors">
-        Contact Us
+        Connect Wallet
       </button>
     </motion.nav>
   );
