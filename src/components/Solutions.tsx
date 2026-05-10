@@ -1,140 +1,240 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, ArrowRight, Quote } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import {
+  motion,
+  useInView,
+  animate,
+  useScroll,
+  useTransform,
+  useSpring,
+} from "motion/react";
+import { Vault, Component, TrendingUp, Users } from "lucide-react";
 
-const solutions = [
-  {
-    id: '01',
-    title: '90% Water Savings',
-    description: 'The smart irrigation systems implemented by UrbanGreen Tech have proven to reduce water consumption by up to 90% when compared to conventional farming practices.',
-    quote: 'We are willing to build a future that sustains both the needs of the present and the health of generations to come',
-    author: 'Peter Hoff',
-    role: 'founder',
-    image: 'https://picsum.photos/seed/irrigation/800/600',
-    profile: 'https://picsum.photos/seed/peter/100/100'
-  },
-  {
-    id: '02',
-    title: '80% Energy Efficiency',
-    description: 'UrbanGreen Tech LED lighting solutions have demonstrated energy efficiency gains of up to 80% compared to traditional lighting systems.',
-    quote: 'Our mission is to empower communities, inspire innovation, and create an eco-friendly world.',
-    author: 'Camilla Hoff',
-    role: 'co-founder',
-    image: 'https://picsum.photos/seed/energy/800/600',
-    profile: 'https://picsum.photos/seed/camilla/100/100'
-  }
-];
+/* ─── Animated Number Counter ─────────────────────────────────────── */
+function Counter({
+  from,
+  to,
+  prefix = "",
+  suffix = "",
+  decimals = 0,
+}: {
+  from: number;
+  to: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
-export default function Solutions() {
-  const [index, setIndex] = useState(0);
-
-  const next = () => setIndex((prev) => (prev + 1) % solutions.length);
-  const prev = () => setIndex((prev) => (prev - 1 + solutions.length) % solutions.length);
-
-  const current = solutions[index];
+  useEffect(() => {
+    if (inView && ref.current) {
+      const controls = animate(from, to, {
+        duration: 2.8,
+        ease: [0.16, 1, 0.3, 1],
+        onUpdate(value) {
+          if (ref.current) {
+            ref.current.textContent = `${prefix}${value.toLocaleString("en-US", {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: decimals,
+            })}${suffix}`;
+          }
+        },
+      });
+      return () => controls.stop();
+    }
+  }, [inView, from, to, prefix, suffix, decimals]);
 
   return (
-    <section className="py-24 px-6 md:px-12">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-        <div>
-          <span className="text-xs uppercase tracking-widest text-black/40 mb-4 block">Our impact</span>
-          <h2 className="text-5xl md:text-7xl font-sans tracking-tight leading-none">
-            Explore our <br /> <span className="font-serif italic">solutions</span>
-          </h2>
-        </div>
-        <div className="flex gap-4">
-          <button 
-            onClick={prev}
-            className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition-all transform active:scale-95"
+    <span ref={ref}>
+      {prefix}
+      {from.toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}
+      {suffix}
+    </span>
+  );
+}
+
+/* ─── Stats Data ───────────────────────────────────────────────────── */
+const stats = [
+  {
+    id: 1,
+    label: "Capital Deployed in Ranches",
+    value: 542890,
+    prefix: "$",
+    suffix: "",
+    decimals: 2,
+    icon: Vault,
+  },
+  {
+    id: 2,
+    label: "Verified on-chain via cNFTs",
+    value: 1240,
+    prefix: "",
+    suffix: "",
+    decimals: 0,
+    icon: Component,
+  },
+  {
+    id: 3,
+    label: "Projected Annual Yield",
+    value: 12.5,
+    prefix: "",
+    suffix: "%",
+    decimals: 1,
+    icon: TrendingUp,
+  },
+  {
+    id: 4,
+    label: "Verified Partner Ranches",
+    value: 5,
+    prefix: "",
+    suffix: "",
+    decimals: 0,
+    icon: Users,
+  },
+];
+
+/* ─── Main Component ───────────────────────────────────────────────── */
+export default function Solutions() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  /* scroll progress bound to this section */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 20,
+    restDelta: 0.001,
+  });
+
+  /* parallax transforms */
+  const badgeY  = useTransform(smoothProgress, [0, 1], ["-30px", "30px"]);
+  const headingY = useTransform(smoothProgress, [0, 1], ["-20px", "20px"]);
+  const bgCircle1Y = useTransform(smoothProgress, [0, 1], ["0%", "30%"]);
+  const bgCircle2Y = useTransform(smoothProgress, [0, 1], ["0%", "-20%"]);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative py-28 px-6 md:px-12 bg-[#F4F0E7] overflow-hidden"
+    >
+      {/* ── Decorative blobs (parallax) ─────────────────────────── */}
+      <motion.div
+        style={{ y: bgCircle1Y }}
+        className="pointer-events-none absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-[#6E8C68]/10 blur-[100px]"
+      />
+      <motion.div
+        style={{ y: bgCircle2Y }}
+        className="pointer-events-none absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-[#D8CFBE]/40 blur-[80px]"
+      />
+
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* ── Section Header ────────────────────────────────────── */}
+        <div className="text-center mb-16 overflow-hidden">
+          <motion.span
+            style={{ y: badgeY }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-block text-xs uppercase tracking-[0.25em] text-[#234A2C] mb-5 font-semibold
+                       border border-[#234A2C]/25 rounded-full px-4 py-1.5 bg-[#234A2C]/5"
           >
-            <ArrowLeft size={20} />
-          </button>
-          <button 
-            onClick={next}
-            className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition-all transform active:scale-95"
+            Protocol Overview
+          </motion.span>
+
+          <motion.h2
+            style={{ y: headingY }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl font-sans tracking-tight text-[#222222] leading-none"
           >
-            <ArrowRight size={20} />
-          </button>
-        </div>
-      </div>
+            Real-Time{" "}
+            <span className="font-serif italic text-[#234A2C]">Proof</span>
+          </motion.h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Large Image Column */}
-        <div className="lg:col-span-5">
-          <div className="relative rounded-[40px] overflow-hidden aspect-[3/4] group">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={current.id}
-                src={current.image}
-                alt={current.title}
-                initial={{ filter: 'grayscale(1) blur(10px)', scale: 1.1 }}
-                animate={{ filter: 'grayscale(0) blur(0px)', scale: 1 }}
-                exit={{ filter: 'grayscale(1) blur(10px)', scale: 1.1 }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </AnimatePresence>
-            <div className="absolute top-6 right-6 w-20 h-20 bg-white/20 backdrop-blur-md rounded-full border border-white/20 flex flex-col items-center justify-center text-white p-2 text-center group-hover:bg-olive group-hover:scale-110 transition-all">
-               <span className="text-[10px] uppercase font-bold tracking-tighter leading-none">Smart</span>
-               <span className="text-[10px] uppercase font-bold tracking-tighter leading-none">Green</span>
-               <span className="text-[10px] uppercase font-bold tracking-tighter leading-none">Status</span>
-            </div>
-          </div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-5 text-[#222222]/55 text-base max-w-md mx-auto"
+          >
+            Every number below is verifiable on-chain — no middlemen, no trust required.
+          </motion.p>
         </div>
 
-        {/* Content Column */}
-        <div className="lg:col-span-7 flex flex-col gap-12">
-          <div className="flex items-center gap-4 mb-4">
-            {solutions.map((s, idx) => (
-              <div 
-                key={s.id}
-                className={`h-1 flex-1 rounded-full transition-all duration-500 ${idx === index ? 'bg-olive' : 'bg-black/5'}`}
-              />
-            ))}
-            <span className="text-sm font-mono opacity-40">{current.id}</span>
-          </div>
-
-          <AnimatePresence mode="wait">
+        {/* ── Stats Grid ────────────────────────────────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {stats.map((stat, index) => (
             <motion.div
-              key={current.id}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col gap-8"
+              key={stat.id}
+              initial={{ opacity: 0, y: 60, scale: 0.92 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{
+                duration: 0.9,
+                delay: index * 0.12,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              whileHover={{
+                y: -10,
+                boxShadow: "0 24px 48px 0 rgba(35,74,44,0.12)",
+                transition: { duration: 0.3 },
+              }}
+              className="group relative bg-white/60 backdrop-blur-xl border border-[#D8CFBE]
+                         rounded-[28px] p-7 shadow-[0_6px_24px_0_rgba(35,74,44,0.05)]
+                         flex flex-col items-center text-center overflow-hidden cursor-default"
             >
-              <h3 className="text-6xl md:text-8xl font-sans tracking-tighter leading-tight text-black/10">
-                {current.title}
-              </h3>
-              <p className="text-xl md:text-2xl text-black/60 max-w-2xl leading-relaxed">
-                {current.description}
-              </p>
+              {/* card glow */}
+              <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700
+                           bg-gradient-to-b from-[#6E8C68]/8 via-transparent to-transparent"
+              />
 
-              <div className="bg-sage/20 p-10 rounded-[32px] border border-sage/30 relative mt-8">
-                <Quote className="absolute -top-6 left-10 text-olive opacity-20" size={60} fill="currentColor" />
-                <p className="text-2xl font-serif italic mb-8 leading-snug">
-                  "{current.quote}"
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-xl">
-                    <img src={current.profile} alt={current.author} referrerPolicy="no-referrer" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-sm tracking-tight">{current.author}</p>
-                    <p className="text-xs text-black/40 uppercase tracking-widest">{current.role}</p>
-                  </div>
-                  <motion.button 
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="ml-auto w-12 h-12 rounded-full bg-olive text-white flex items-center justify-center hover:bg-moss transition-colors"
-                  >
-                    <ArrowRight size={20} />
-                  </motion.button>
-                </div>
+              {/* icon */}
+              <motion.div
+                whileHover={{ rotate: 6, scale: 1.12 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                className="relative z-10 w-14 h-14 rounded-2xl bg-[#F4F0E7] border border-[#D8CFBE]/60
+                           flex items-center justify-center mb-7 text-[#234A2C]"
+              >
+                <stat.icon size={24} strokeWidth={1.5} />
+              </motion.div>
+
+              {/* number */}
+              <div className="relative z-10 text-4xl md:text-5xl font-serif text-[#222222] mb-3 tracking-tight">
+                <Counter
+                  from={0}
+                  to={stat.value}
+                  prefix={stat.prefix}
+                  suffix={stat.suffix}
+                  decimals={stat.decimals}
+                />
               </div>
+
+              {/* divider */}
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.12 + 0.4 }}
+                className="w-8 h-px bg-[#D8CFBE] mb-4 origin-left"
+              />
+
+              {/* label */}
+              <p className="relative z-10 text-sm font-medium text-[#222222]/70">
+                {stat.label}
+              </p>
             </motion.div>
-          </AnimatePresence>
+          ))}
         </div>
       </div>
     </section>
