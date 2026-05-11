@@ -15,5 +15,3 @@ export function getNusaCowProgramMeta() {
     programId: nusaCowIdl.address,
   };
 }
-
-export { nusaCowIdl };
