@@ -5,4 +5,8 @@ target/
 .env.local
 dist/
 build/
-
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
