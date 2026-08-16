@@ -5,6 +5,8 @@ import cow3Img from "../image/Cow3.png";
 import cow4Img from "../image/Cow5.png";
 import cow5Img from "../image/Cow4.png";
 
+const getSrc = (img: any): string => (typeof img === 'string' ? img : img?.src || (img as string));
+
 const steps = [
   {
     id: 1,
@@ -93,11 +95,12 @@ export default function HowItsWork() {
               {step.bgImageSrc && (
                 <>
                   <img
-                    src={step.bgImageSrc}
+                    src={getSrc(step.bgImageSrc)}
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover object-center"
                     aria-hidden="true"
                   />
+
                   {/* dark gradient overlay so text stays readable */}
                   <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/20" />
                 </>

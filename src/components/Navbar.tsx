@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Home, Compass, FileText, Layers, Ticket } from 'lucide-react';
 import profileCow from '../image/Profile_cow.png';
 
+const getSrc = (img: any): string => (typeof img === 'string' ? img : img?.src || (img as string));
+
 export default function Navbar({ onNavigate }: { onNavigate?: (page: 'home' | 'waitlist') => void }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,8 +18,9 @@ export default function Navbar({ onNavigate }: { onNavigate?: (page: 'home' | 'w
       >
         <div className="flex items-center gap-2 group cursor-pointer z-50">
           <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-white transition-transform group-hover:rotate-12 overflow-hidden">
-            <img src={profileCow} alt="NusaCow Logo" className="w-full h-full object-cover" />
+            <img src={getSrc(profileCow)} alt="NusaCow Logo" className="w-full h-full object-cover" />
           </div>
+
           <span className="font-semibold text-base md:text-lg tracking-tight">Nusa Cow</span>
         </div>
 

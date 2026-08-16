@@ -1,37 +1,44 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import cowBg from '../image/Cow1.png';
+import cow2 from '../image/Cow2.png';
+import cow3 from '../image/Cow3.png';
+import cow4 from '../image/Cow4.png';
+import cow5 from '../image/Cow5.png';
+
+const getSrc = (img: any): string => (typeof img === 'string' ? img : img?.src || (img as string));
 
 const milestones = [
   {
     id: 1,
     metadata: "Origin",
     title: "Sumba Valley - Verified Issuer #001",
-    image: "https://picsum.photos/seed/nusa1/800/800",
+    image: cow2,
     rotation: -2,
   },
   {
     id: 2,
     metadata: "Minting",
     title: "cNFT Minted - On-Chain Asset Identity",
-    image: "https://picsum.photos/seed/nusa2/800/800",
+    image: cow3,
     rotation: 1.5,
   },
   {
     id: 3,
     metadata: "Growth",
     title: "Proof of Growth - Weight 450kg Updated",
-    image: "https://picsum.photos/seed/nusa3/800/800",
+    image: cow4,
     rotation: -1.5,
   },
   {
     id: 4,
     metadata: "Settlement",
     title: "Profit Distribution - Vault Settlement",
-    image: "https://picsum.photos/seed/nusa4/800/800",
+    image: cow5,
     rotation: 2,
   },
 ];
+
 
 export const Timeline = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -164,7 +171,7 @@ export const Timeline = () => {
                           <div className="absolute top-[-8px] left-1/2 -translate-x-1/2 w-16 md:w-24 h-4 md:h-6 bg-[#fffceb]/60 backdrop-blur-sm rotate-[-1deg] z-10 shadow-sm border border-white/20"></div>
 
                           <img
-                            src={milestone.image}
+                            src={getSrc(milestone.image)}
                             alt={milestone.title}
                             className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700"
                           />
