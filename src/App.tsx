@@ -19,7 +19,7 @@ export default function App() {
 
       {currentPage === 'home' ? (
         <main>
-          <Hero />
+          <Hero onNavigate={setCurrentPage} />
 
           <div className="mt-20">
             <Ticker />
@@ -48,7 +48,7 @@ export default function App() {
                 <span className="font-bold text-xl font-serif">Nusa Cow</span>
               </div>
               <p className="text-black/50 max-w-sm mb-8">
-                Leading the way in sustainable urban development. We create smart solutions for a greener, healthier future in our cities.
+                Democratizing cattle livestock investment in Indonesia through Solana Real World Asset (RWA) tokenization.
               </p>
               <div className="flex gap-6">
                 <a href="#" className="text-black/60 hover:text-[#6E8C68] transition-colors" aria-label="X (formerly Twitter)">
