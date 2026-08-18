@@ -57,41 +57,45 @@ function Counter({
 }
 
 /* ─── Stats Data ───────────────────────────────────────────────────── */
-const stats = [
+type StatItem = {
+  id: number;
+  label: string;
+  displayValue?: string;
+  numericValue?: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+  isSimulatedYield?: boolean;
+  icon: any;
+};
+
+const stats: StatItem[] = [
   {
     id: 1,
-    label: "Capital Deployed in Ranches",
-    value: 542890,
-    prefix: "$",
-    suffix: "",
-    decimals: 2,
+    label: "Target Modal ke Peternakan",
+    displayValue: "Coming Soon",
     icon: Vault,
   },
   {
     id: 2,
-    label: "Verified on-chain via cNFTs",
-    value: 1240,
-    prefix: "",
-    suffix: "",
-    decimals: 0,
+    label: "Sapi Terverifikasi On-Chain",
+    displayValue: "Coming Soon",
     icon: Component,
   },
   {
     id: 3,
-    label: "Projected Annual Yield",
-    value: 12.5,
+    label: "Simulasi Hasil Tahunan*",
+    numericValue: 12.5,
     prefix: "",
     suffix: "%",
     decimals: 1,
+    isSimulatedYield: true,
     icon: TrendingUp,
   },
   {
     id: 4,
-    label: "Verified Partner Ranches",
-    value: 5,
-    prefix: "",
-    suffix: "",
-    decimals: 0,
+    label: "Target Mitra Peternakan",
+    displayValue: "Coming Soon",
     icon: Users,
   },
 ];
@@ -156,8 +160,8 @@ export default function Solutions() {
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-6xl font-sans tracking-tight text-[#222222] leading-none"
           >
-            Real-Time{" "}
-            <span className="font-serif italic text-[#234A2C]">Proof</span>
+            Target{" "}
+            <span className="font-serif italic text-[#234A2C]">Protokol</span>
           </motion.h2>
 
           <motion.p
@@ -165,9 +169,9 @@ export default function Solutions() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-5 text-[#222222]/55 text-base max-w-md mx-auto"
+            className="mt-5 text-[#222222]/60 text-base max-w-lg mx-auto leading-relaxed"
           >
-            Every number below is verifiable on-chain — no middlemen, no trust required.
+            Angka di bawah adalah target kami menuju peluncuran mainnet. Setelah live, akan diperbarui otomatis dari data on-chain.
           </motion.p>
         </div>
 
@@ -209,15 +213,27 @@ export default function Solutions() {
                 <stat.icon size={24} strokeWidth={1.5} />
               </motion.div>
 
-              {/* number */}
-              <div className="relative z-10 text-4xl md:text-5xl font-serif text-[#222222] mb-3 tracking-tight">
-                <Counter
-                  from={0}
-                  to={stat.value}
-                  prefix={stat.prefix}
-                  suffix={stat.suffix}
-                  decimals={stat.decimals}
-                />
+              {/* number / text */}
+              <div className="relative z-10 mb-3 tracking-tight flex items-center justify-center min-h-[48px]">
+                {stat.isSimulatedYield ? (
+                  <span className="text-xl md:text-2xl font-semibold font-sans text-[#234A2C] bg-[#234A2C]/10 px-3.5 py-1 rounded-full border border-[#234A2C]/15">
+                    {stat.numericValue !== undefined ? (
+                      <Counter
+                        from={0}
+                        to={stat.numericValue}
+                        prefix={stat.prefix}
+                        suffix={stat.suffix}
+                        decimals={stat.decimals}
+                      />
+                    ) : (
+                      stat.displayValue
+                    )}
+                  </span>
+                ) : (
+                  <span className="text-2xl md:text-3xl font-serif text-[#222222]">
+                    {stat.displayValue}
+                  </span>
+                )}
               </div>
 
               {/* divider */}
@@ -236,6 +252,11 @@ export default function Solutions() {
             </motion.div>
           ))}
         </div>
+
+        {/* Footnote */}
+        <p className="mt-8 text-center text-xs text-[#222222]/50 italic">
+          *Simulasi, bukan jaminan hasil investasi.
+        </p>
       </div>
     </section>
   );

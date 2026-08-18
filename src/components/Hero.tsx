@@ -22,8 +22,8 @@ const heroSlides = [
   {
     id: 2,
     image: cow7,
-    tags: ['Program Registry', 'On-Chain Identity', 'cNFT Certificate'],
-    description: 'Every cattle asset is registered on Solana via PDAs and cNFTs, recording verified origin, breed, weight, and attestation history.'
+    tags: ['Program Registry', 'On-Chain Identity', 'On-Chain Certificate'],
+    description: 'Every cattle asset is registered on Solana via PDAs and on-chain records, recording verified origin, breed, weight, and attestation history.'
   },
   {
     id: 3,
@@ -139,12 +139,15 @@ export default function Hero({ onNavigate }: { onNavigate?: (page: 'home' | 'wai
                 <span className="text-[10px] font-semibold text-black/60 uppercase tracking-wider flex items-center gap-1">
                   <ShieldCheck size={12} className="text-[#6E8C68]" /> RWA Vault TVL
                 </span>
-                <span className="text-[10px] font-bold text-[#234A2C] bg-[#6E8C68]/20 px-2 py-0.5 rounded-md">+14.5% APY</span>
+                <span className="text-[9px] font-medium text-[#234A2C]/80 bg-[#6E8C68]/15 px-2 py-0.5 rounded-md">Simulasi hasil*</span>
               </div>
-              <p className="text-xl font-bold font-serif text-[#234A2C]">$542,890 USD</p>
+              <p className="text-base md:text-lg font-bold font-serif text-[#234A2C]">Target TVL: akan diumumkan</p>
               <div className="w-full bg-black/5 h-1.5 rounded-full mt-2 overflow-hidden">
-                <div className="bg-[#6E8C68] h-full w-[78%] rounded-full"></div>
+                <div className="bg-[#6E8C68] h-full w-[45%] rounded-full"></div>
               </div>
+              <p className="text-[9px] text-black/50 mt-2 leading-tight">
+                *Simulasi, bukan jaminan hasil. Investasi ternak memiliki risiko termasuk kemungkinan kerugian modal.
+              </p>
             </div>
 
             {/* Bottom Info */}
@@ -177,11 +180,14 @@ export default function Hero({ onNavigate }: { onNavigate?: (page: 'home' | 'wai
               </div>
             </div>
             <div className="z-10">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-2">
                 <p className="text-lg font-bold leading-tight text-[#234A2C]">Our Farmers <ArrowUpRight className="inline-block ml-1" size={18} /></p>
-                <span className="text-[10px] font-bold uppercase tracking-wider bg-white/70 backdrop-blur-sm px-2.5 py-1 rounded-full text-[#234A2C] border border-black/5">Verified</span>
+                <div className="flex flex-col items-end text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-white/70 backdrop-blur-sm px-2.5 py-1 rounded-full text-[#234A2C] border border-black/5">Verified</span>
+                  <span className="text-[9px] text-[#234A2C]/70 mt-1 max-w-[130px] leading-tight">Diverifikasi oleh tim kurasi & attestor independen</span>
+                </div>
               </div>
-              <p className="text-xs text-[#234A2C]/70 mt-1">1,240+ Cattle Registered on-chain</p>
+              <p className="text-xs text-[#234A2C]/80 mt-2 font-medium">Target: 1.000+ sapi terdaftar di fase awal</p>
             </div>
             <div className="absolute -bottom-8 -right-8 w-28 h-28 bg-[#6E8C68] rounded-full opacity-40 blur-xl"></div>
           </motion.div>
@@ -215,8 +221,8 @@ export default function Hero({ onNavigate }: { onNavigate?: (page: 'home' | 'wai
             className="mb-12"
           >
             <h1 className="text-5xl sm:text-6xl md:text-8xl font-medium tracking-tight leading-[1] md:leading-[0.9] mb-4">
-              Empowering Local Ranches <br className="hidden md:block" />
-              <span className="font-serif italic text-sage-foreground">Tokenizing</span> Physical World
+              Memberdayakan Peternak Lokal <br className="hidden md:block" />
+              <span className="font-serif italic text-sage-foreground">Menokenisasi</span> Dunia Nyata
             </h1>
           </motion.div>
 
@@ -351,6 +357,18 @@ export default function Hero({ onNavigate }: { onNavigate?: (page: 'home' | 'wai
           </motion.div>
         </div>
       </div>
+
+      {/* Compliance Disclaimer Bar */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="mt-10 md:mt-14 w-full rounded-2xl border border-black/5 bg-black/[0.03] backdrop-blur-sm px-4 py-3 md:px-6 md:py-3.5 text-center"
+      >
+        <p className="text-[11px] md:text-xs text-black/50 leading-relaxed">
+          <span className="font-semibold text-black/60">Pemberitahuan:</span> NusaCow adalah platform tokenisasi aset ternak. Bukan produk perbankan atau efek yang diawasi OJK. Sedang dalam tahap pengembangan (devnet). Baca risiko lengkap di Docs sebelum bergabung waitlist.
+        </p>
+      </motion.div>
     </section>
   );
 }

@@ -2,14 +2,14 @@ import { motion } from 'motion/react';
 import { Sparkles } from 'lucide-react';
 
 const services = [
-  'Decentralized RWA Launchpad',
-  'Fractional Livestock Ownership',
-  'On-Chain Asset Verification',
-  'Automated Yield Distribution',
-  'Transparent Ranching Ecosystem',
-  'Solana-Powered Infrastructure',
-  'Secure PDA Vault Escrow',
-  'Compressed NFT Certificates',
+  'Platform RWA Ternak Terkurasi',
+  'Kepemilikan Ternak Terfraksi',
+  'Verifikasi Aset On-Chain',
+  'Distribusi Yield Otomatis',
+  'Ekosistem Peternakan Transparan',
+  'Infrastruktur Berbasis Solana',
+  'Escrow Vault PDA Aman',
+  'Sertifikat On-Chain',
 ];
 
 export default function Ticker() {
